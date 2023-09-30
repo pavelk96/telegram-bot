@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://kedovpavel:3636@localhost:5432/telegram-bot?schema=public"
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  telegramId Int       @unique
+  firstName  String?
+  lastName   String?
+  username   String?
+  status     String?
+  election Election[]
+
+}
+
+model Election {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  createdAt  DateTime @default(now())
+}
